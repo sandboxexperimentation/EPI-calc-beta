@@ -1,0 +1,51 @@
+<html>
+<head>
+<script src="data.js"></script> 
+<link rel="stylesheet" href="style.css">
+
+<script>
+
+ 
+  
+ 
+
+
+  
+  
+</script>
+</head>
+<body onload="loadpage()">
+<div id="wrapper" class="container-lg markdown-body">
+<br>  
+<input id="Pancrelipase type" type="checkbox" > <span id="">Creon</span>
+<input id="Pancrelipase type" type="checkbox" > <span id="">Zenpep</span>
+<br>  
+<br>  
+ Size: <select id="Creon" onchange="getBossHP()">
+    <option Lipasevalue="3000", Proteasevalue="9500" selected>Creon 3000</option>
+	<option Lipasevalue="6000", Proteasevalue="19000" selected>Creon 6000</option>
+	<option Lipasevalue="12000", Proteasevalue="38000">Creon 12000</option>
+	<option Lipasevalue="24000", Proteasevalue="76000">Creon 24000</option>
+	<option Lipasevalue="36000", Proteasevalue="11400">Creon 36000</option>
+Size: <select id="Zenpep" onchange="getBossHP()">
+	<option Lipasevalue="3000", Proteasevalue="10000" selected>Zenpep 3000</option>
+	<option Lipasevalue="5000", Proteasevalue="17000" selected>Zenpep 5000</option>
+	<option Lipasevalue="10000", Proteasevalue="34000">Zenpep 10000</option>
+	<option Lipasevalue="15000", Proteasevalue="51000">Zenpep 15000</option>
+	<option Lipasevalue="20000", Proteasevalue="68000">Zenpep 20000</option>
+	<option Lipasevalue="25000", Proteasevalue="85000">Zenpep 25000</option>
+	<option Lipasevalue="40000", Proteasevalue="136000">Zenpep 40000</option>
+  <br>
+  <br>
+  
+     
+  <div id="results"></div>
+
+  <p><input style="width:450px" type="button" value="Calculate" onclick="calctime()"></p>
+  
+  
+  <p>Note: not medical advice.</p>
+
+</div>
+</body>
+</html>
