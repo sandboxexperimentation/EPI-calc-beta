@@ -1,5 +1,7 @@
  # Initial beta calculator for PERT
  
+ Test it out: https://sandboxexperimentation.github.io/EPI-calc-beta/
+ 
  Calculate ratios of lipase:fat and protease:protein based on doses of PERT (pancrelipase) that work well
  
  TO DOs:
