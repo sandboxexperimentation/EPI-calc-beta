@@ -4,14 +4,124 @@
 <style> 
 h1 {text-align: center;}
 h3 {text-align: center;}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+header {
+  background-color: #6495ED;
+  padding: 10px;
+  text-align: center;
+  font-size: 25px;
+  color: white;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+  float: left;
+  width: 30%;
+  background: #ccc;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+}
+
+/* Clear floats after the columns */
+section::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  
+}
+
+a:link {
+  color: lightblue;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #CCCCFF;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.collapsible {
+  background-color: #C0C0C0;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  width: 75%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 15px;
+  margin:auto;
+  display:block;
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+
 </style>
 </head>
 
-<h1>EPI/PEI PERT Calculator (Beta)<br><br></h1>
-<h3 style="background-color:lightgray">Instructions:</h3>
-<p style="text-align: center">This calculator helps you assess your ratios for lipase:fat and protease:protein, which can then be used to estimate what dose you might need for a "mystery" meal that you haven't eaten before.
-<br><br>To calculate your ratios, first input your existing dose type and size, plus the number of pills you typically take for a meal.</p>
-<h3>Part One: Calculating Your Ratios</h3>
+<header>
+<h1>EPI/PEI PERT Calculator (Beta)</h1>
+</header>
+
+<section>
+	<nav>
+		<h3>Instructions:</h3>
+		<p style="text-align: center">This calculator helps you assess your ratios for lipase:fat and protease:protein, which can then be used to estimate what dose you might need for a "mystery" meal that you haven't eaten before.
+		<br><br>To calculate your ratios (PART 1), first input your existing dose type and size, plus the number of pills you typically take for a meal.</p>
+		<p style="text-align: center"><br><br>To estimate necessary dosing for a new, larger meal (PART 2), fill out Part 1 and then put in your new meal and dose size.</p>
+	</nav>
+
+<article>
+<h1>Part One: Calculating Your Ratios</h1>
 <! create dropdown menu with Creon, Zenpep>
 <p><b>Select the type of pancrelipase and size of dose:</b></p>
 <select id="PancrelipaseType" onchange="defineallvariablesizes();displayPancrelipaseSelection();displayNumberOfPills();displayLipaseTotal();displayProteaseTotal(); calculateLipaseRatio(); calculateProteaseRatio()">
@@ -34,7 +144,9 @@ h3 {text-align: center;}
 <input id="number of pills" type="number" min="1" max="10" value="1" size="2" onchange="defineallvariablesizes(); displayPancrelipaseSelection();displayNumberOfPills(); displayLipaseTotal(); displayProteaseTotal(); calculateLipaseRatio(); calculateProteaseRatio()">
 <br>  
 
+<!--
 <p id="results"></p> <p id="pillresults"></p> <p id="lipasequantityresults"></p> <p id="proteasequantityresults"></p><p id="amylasequantityresults"></p>
+-->
 
 <! displayPancrelipaseSelection function to display the selected pancrelipase type> 
 <script>
@@ -243,7 +355,6 @@ function calculateProteaseRatio() {
   <option value="Zenpep 40000" Lipasevalue="40000" Proteasevalue="136000">Zenpep 40000</option>
 </select>
 
-
 <! figure out lipaseNeeded and proteaseNeeded for new input meal>
 <script>
 function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipaseType) {
@@ -323,25 +434,50 @@ function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipase
 
 }
 	</script>
+<br>
+<br>
+<div class="center">
+<button align="center" type="button" class="collapsible">Click to expand and display the calculations.</button>
+<div class="content" style="text-align: center;">
+	<p id="newmealPillSize"></p> 
+	<p id="newmealPillSize2"></p>  
+	<p id="newmealLipaseCalculation"></p> 
+	<p id="newmealLipasePillsCalculation"></p>
+	<p id="newmealProteaseCalculation"></p>
+	<p id="newmealProteasePillsCalculation"></p>
 
-<p id="newmealPillSize"></p> 
-<p id="newmealPillSize2"></p>  
-<p id="newmealLipaseCalculation"></p> 
-<p id="newmealLipasePillsCalculation"></p>
-<p id="newmealProteaseCalculation"></p>
-<p id="newmealProteasePillsCalculation"></p>
-<p id="newmealPancrelipaseTotalCalculation"></p>
+</div>	
+</div>
 
+<p style="text-align: center;" id="newmealPancrelipaseTotalCalculation"></p>
 
+<script>
+	var coll = document.getElementsByClassName("collapsible");
+	var i;
+	
+	for (i = 0; i < coll.length; i++) {
+	  coll[i].addEventListener("click", function() {
+		this.classList.toggle("active");
+		var content = this.nextElementSibling;
+		if (content.style.display === "block") {
+		  content.style.display = "none";
+		} else {
+		  content.style.display = "block";
+		}
+	  });
+	}
+	</script>
+	
 
+  <br>
+</article>
+</section>
+<footer>
+	<p style="text-align: center;"><b>Note</b>: this is not medical advice. Use at your own risk.</p>
 
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <p>Note: not medical advice.</p>
+	<p style="text-align: center;"> For more details about the idea behind this calculator, <a href="https://bit.ly/3fAUFfJ>">read this post</a>.</p>
+</footer>
+
 
 </div>
 </body>
