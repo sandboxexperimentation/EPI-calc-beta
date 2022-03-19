@@ -2,6 +2,8 @@
 <head>	
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src='build/pdfmake.min.js'></script>
+<script src='build/vfs_fonts.js'></script>
 <style> 
 h1 {text-align: center;}
 h3 {text-align: center;}
@@ -479,7 +481,70 @@ function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipase
 	<p style="text-align: center;"> For more details about the idea behind this calculator, <a href="https://bit.ly/3fAUFfJ>">read this post</a>.</p>
 </footer>
 
+<p></p>
+<button style="text-align: center;" onclick=pdfMake.createPdf(docDefinition).download('EPI-PERT-Enzyme-Calculator-Report.pdf');>Download PDF</button>
+<script>
 
+	var docDefinition = {
+		content: [
+		{ text: 'Report from the EPI/PEI PERT Enzyme Calculator', style: 'header' },
+		{ text: 'Generated from https://sandboxexperimentation.github.io/EPI-calc-beta/', style: 'subhead' },
+		' ',
+		' ',
+	 //   { text: 'You selected:', style: 'subsubhead' },
+	 //   ' ',
+		{ text: document.getElementById("number of pills").value + ' ' + document.getElementById("PancrelipaseType").value + ' pill(s) per meal typically work for you.', fontSize: 10 },
+		' ',
+	 //   { text: 'This successfully covers:', style: 'subsubhead' },
+	 //   ' ',
+		{ text: ' This successfully covers around ' + document.getElementById("grams of fat").value + ' grams of fat, ' + document.getElementById("grams of protein").value + ' grams of protein, and ' + document.getElementById("grams of carbohydrates").value + ' grams of carbohydrates.', fontSize: 10 },
+		' ',
+		{ text: 'This means:', style: 'subsubhead' },
+		' ',
+		{ text: '1000 units of lipase will cover ' + document.getElementById("grams of fat").value + ' grams of fat.', fontSize: 10 },
+		{ text: '1000 units of protease will cover ' + document.getElementById("grams of protein").value + ' grams of protein.', fontSize: 10 },
+		{ text: 'One pill of ' + document.getElementById("PancrelipaseType").value + ' will cover ' + document.getElementById("grams of fat").value + ' grams of fat.', fontSize: 10 },
+		{ text: 'One pill of ' + document.getElementById("PancrelipaseType").value + ' will cover ' + document.getElementById("grams of protein").value + ' grams of protein.', fontSize: 10 },
+		' ',
+		{ text: 'A new meal that you would like to calculate the dose for is:', style: 'subsubhead' },
+		' ',
+		{ text: ' ' + document.getElementById("new meal grams of fat").value + ' grams of fat, ' + document.getElementById("new meal grams of protein").value + ' grams of protein' + ' (with ' + document.getElementById("NewMealPancrelipaseType").value + ')', fontSize: 10 },
+		' ',
+		' ',
+		{ text: 'Estimated Needs', style: 'subhead' },
+		
+//		{ text: 'You will need an estimated ' + document.getElementById("variablenewmealLipaseNeeded").value + ' units of lipase to cover ' + document.getElementById("new meal grams of fat").value + ' grams of fat, and ' + document.getElementById("newmealProteaseNeeded").value + 'units of lipase to cover ' + document.getElementById("new meal grams of protein").value + ' grams of protein.', fontSize: 10 },
+    ' ',
+//   { text: 'This means ' + document.getElementByID("newmealLipasePillsCalculation").value + ' pills of ' + document.getElementById("NewMealPancrelipaseType").value + ' to cover ' + document.getElementById("new meal lipase").value + ' lipase, and ' + document.getElementById("newmealProteasePillsCalculation.toFixed(0)").value + ' pills of ' + document.getElementById("NewMealPancrelipaseType").value + ' to cover ' + document.getElementById("new meal protease").value + ' protease.', italics:true },
+    ' ',
+//   { text: 'You therefore need an estimated ' + document.getElementById("newmealPancrelipaseNeeded").value + ' of ' + document.getElementById("newmealPillSize").value + ' to cover your meal.', italics:true },
+
+	
+		],
+	
+		styles: {
+		header: {
+		  fontSize: 25,
+		  alignment: 'center',
+		  bold: true
+		},
+		subhead: {
+		  fontSize: 12,
+		  alignment: 'center',
+		  bold: true
+		},
+		subsubhead: {
+		  fontSize: 12,
+		  alignment: 'left'
+		},
+		defaultStyle: {
+		fontSize: 10,
+		bold: false
+		}
+	  }
+	};
+	
+	</script>
 </div>
 </body>
 </html>
