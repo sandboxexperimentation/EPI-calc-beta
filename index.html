@@ -1,13 +1,20 @@
 <html>
 <head>
-<link rel="stylesheet" href="style.css">
-
+<body onload="loadpage()"></body>
+<style> 
+h1 {text-align: center;}
+h3 {text-align: center;}
+</style>
 </head>
-<body onload="loadpage()">
-<div id="wrapper" class="container-lg markdown-body">
+
+<h1>EPI/PEI PERT Calculator (Beta)<br><br></h1>
+<h3 style="background-color:lightgray">Instructions:</h3>
+<p style="text-align: center">This calculator helps you assess your ratios for lipase:fat and protease:protein, which can then be used to estimate what dose you might need for a "mystery" meal that you haven't eaten before.
+<br><br>To calculate your ratios, first input your existing dose type and size, plus the number of pills you typically take for a meal.</p>
+<h3>Part One: Calculating Your Ratios</h3>
 <! create dropdown menu with Creon, Zenpep>
 <p><b>Select the type of pancrelipase and size of dose:</b></p>
-<select id="PancrelipaseType" onchange="defineallvariablesizes();displayPancrelipaseSelection();displayNumberOfPills();displayLipaseTotal();displayProteaseTotal()">
+<select id="PancrelipaseType" onchange="defineallvariablesizes();displayPancrelipaseSelection();displayNumberOfPills();displayLipaseTotal();displayProteaseTotal(); calculateLipaseRatio(); calculateProteaseRatio()">
   <option value="" selected>Select Pancrelipase Type</option>
   <option value="Creon 3000" Lipasevalue="3000" Proteasevalue="9500">Creon 3000</option>
   <option value="Creon 6000" Lipasevalue="6000" Proteasevalue="19000">Creon 6000</option>
@@ -24,7 +31,7 @@
 </select>
 
 <! create user entry box for number of pills >
-<input id="number of pills" type="number" min="1" max="10" value="1" size="2" onchange="defineallvariablesizes(); displayPancrelipaseSelection();displayNumberOfPills(); displayLipaseTotal(); displayProteaseTotal()">
+<input id="number of pills" type="number" min="1" max="10" value="1" size="2" onchange="defineallvariablesizes(); displayPancrelipaseSelection();displayNumberOfPills(); displayLipaseTotal(); displayProteaseTotal(); calculateLipaseRatio(); calculateProteaseRatio()">
 <br>  
 
 <p id="results"></p> <p id="pillresults"></p> <p id="lipasequantityresults"></p> <p id="proteasequantityresults"></p><p id="amylasequantityresults"></p>
@@ -32,7 +39,7 @@
 <! displayPancrelipaseSelection function to display the selected pancrelipase type> 
 <script>
 function displayPancrelipaseSelection() {
-  var doseName = document.getElementById("PancrelipaseType").value;
+  doseName = document.getElementById("PancrelipaseType").value;
   document.getElementById("results").innerHTML = "You have selected " + doseName + "";
 }
 </script>
@@ -45,20 +52,10 @@ function displayNumberOfPills() {
 }
 </script>
 
-<! function displayLipaseTotal to display the total amount of lipase by multiplying the selected dose of lipase by the number of pills selected>
-<script>
-function displayLipaseTotal() {
-	var lipaseTotal = document.getElementById("PancrelipaseType").value;
-	var lipaseTotal = lipaseTotal.replace(/[^0-9\.]+/g,"");
-	var lipaseTotal = lipaseTotal * document.getElementById("number of pills").value;
-  document.getElementById("lipasequantityresults").innerHTML = "The total amount of lipase is " + lipaseTotal + ".";
-}
-</script>
-
 <! define variables based on input dose size>
 <script>
 function defineallvariablesizes() {
-	var doseName = document.getElementById("PancrelipaseType").value;
+	doseName = document.getElementById("PancrelipaseType").value;
   if (doseName == "Creon 3000") {
 	  var protease = 9500;
 	  var amylase = 15000;
@@ -108,8 +105,12 @@ function defineallvariablesizes() {
 	  var amylase = 218000;
   }
   {
-	  proteaseTotal = protease * document.getElementById("number of pills").value;
-	  amylaseTotal = amylase * document.getElementById("number of pills").value;
+	var lipaseTotal = document.getElementById("PancrelipaseType").value;
+	var lipaseTotal = lipaseTotal.replace(/[^0-9\.]+/g,"");
+	var lipaseTotal = lipaseTotal * document.getElementById("number of pills").value;
+  	document.getElementById("lipasequantityresults").innerHTML = "The total amount of lipase is " + lipaseTotal + ".";
+	var proteaseTotal = protease * document.getElementById("number of pills").value;
+	var amylaseTotal = amylase * document.getElementById("number of pills").value;
 	document.getElementById("proteasequantityresults").innerHTML = "The total amount of protease is " + proteaseTotal + ".";
 	document.getElementById("amylasequantityresults").innerHTML = "The total amount of amylase is " + amylaseTotal + ".";
   }
@@ -118,9 +119,9 @@ function defineallvariablesizes() {
 
 <p><b>For a meal that is successfully covered by the above dose, enter the estimates of grams of fat, protein, and carbohydrates for that meal.</b></p>
  <! create two user entry boxes for grams of fat and protein> 
- <label for="grams of fat">Grams of fat:</label> <input id="grams of fat" type="number" min="0" max="300" value="0" size="5"> 
+ <label for="grams of fat">Grams of fat:</label> <input id="grams of fat" type="number" min="0" max="300" value="0" size="5" onchange="calculateLipaseRatio(); calculateProteaseRatio()"> 
  <label for="grams of protein">Grams of protein:</label>
- <input id="grams of protein" type="number" min="0" max="300" value="0" size="5">
+ <input id="grams of protein" type="number" min="0" max="300" value="0" size="5" onchange="calculateLipaseRatio(); calculateProteaseRatio()"">
  <label for="grams of carbohydrates">Grams of carbohydrates:</label>
  <input id="grams of carbohydrates" type="number" min="0" max="300" value="0" size="5">
 
@@ -132,20 +133,23 @@ function defineallvariablesizes() {
 <! //create function calculateLipaseRatio to divide lipaseTotal by 1000, then by grams of fat and display the results>
 <script>
 function calculateLipaseRatio() {
+	doseName = document.getElementById("PancrelipaseType").value;
 	var lipaseTotal = document.getElementById("PancrelipaseType").value;
 	var lipaseTotal = lipaseTotal.replace(/[^0-9\.]+/g,"");
 	var lipaseTotal = lipaseTotal * document.getElementById("number of pills").value;
 	var lipaseTotal = lipaseTotal / 1000;
 	var gramsoffat = document.getElementById("grams of fat").value;
-	var lipaseRatio = gramsoffat / lipaseTotal;
-	document.getElementById("lipaseratioresults").innerHTML = "The lipase ratio is " + lipaseRatio.toFixed(3) + " (grams of fat to 1000 units of lipase).";
+	lipaseRatio = gramsoffat / lipaseTotal;
+	document.getElementById("lipaseratioresults").innerHTML = "The lipase to fat ratio is " + lipaseRatio.toFixed(3).bold() + " (grams of fat to 1000 units of lipase).";
+	var onepillLipase = lipaseRatio * lipaseTotal / document.getElementById("number of pills").value;
+	document.getElementById("onepillLipase").innerHTML = "One pill of " + doseName.bold() + " covers an estimated " + onepillLipase.toFixed(1).bold() + " grams of fat.";  
 }
 </script>
 
 <! // create function calculateProteaseRatio by dividing proteaseTotal by 1000, then dividing by grams of protein, and displaying the results>
 <script>
 function calculateProteaseRatio() {
-	var doseName = document.getElementById("PancrelipaseType").value;
+	doseName = document.getElementById("PancrelipaseType").value;
   if (doseName == "Creon 3000") {
 	  var protease = 9500;
 	  var amylase = 15000;
@@ -195,27 +199,138 @@ function calculateProteaseRatio() {
 	  var amylase = 218000;
   }
   {
+	doseName = document.getElementById("PancrelipaseType").value;
 	var proteaseTotal = protease * document.getElementById("number of pills").value;
 	var amylaseTotal = amylase * document.getElementById("number of pills").value;
 	var proteaseTotal = proteaseTotal / 1000;
 	var gramsofprotein = document.getElementById("grams of protein").value;
-	var proteaseRatio = gramsofprotein / proteaseTotal;
-	document.getElementById("proteaseratioresults").innerHTML = "The protease ratio is " + proteaseRatio.toFixed(3) + "(grams of protein to 1000 units of protease).";	
-  }
+	proteaseRatio = gramsofprotein / proteaseTotal;
+	document.getElementById("proteaseratioresults").innerHTML = "The protease to protein ratio is " + proteaseRatio.toFixed(3).bold() + " (grams of protein to 1000 units of protease).";	
+	var onepillProtease = proteaseRatio * proteaseTotal / document.getElementById("number of pills").value;
+	document.getElementById("onepillProtein").innerHTML = "One pill of " + doseName.bold() + " covers an estimated " + onepillProtease.toFixed(1).bold() + " grams of protein.";  
+}
 }
 </script>
 
-
-<br>
 <br>
 <p id="lipaseratioresults"></p>
 <p id="proteaseratioresults"></p>
+<p id="onepillLipase"></p>
+<p id="onepillProtein"></p>
+<br>
+<br>
+<h3>Part Two: Generating Recommendations For A Future Meal Based On Your Ratios</h3>
+
+<! // create user entry fields for grams of fat, grams of protein, and grams of carbohydrates>
+<label for="grams of fat">Grams of fat:</label> <input id="new meal grams of fat" type="number" min="0" max="300" value="0" size="3" onchange="newmealQuantitiesNeeded(lipaseRatio, proteaseRatio)">
+<label for="grams of protein">Grams of protein:</label> <input id="new meal grams of protein" type="number" min="0" max="300" value="0" size="3" onchange="newmealQuantitiesNeeded(lipaseRatio, proteaseRatio)">
+<label for="grams of carbohydrates">Grams of carbohydrates:</label> <input id="new meal grams of carbohydrates" type="number" min="0" max="300" value="0" size="3" onchange="newmealQuantitiesNeeded(lipaseRatio, proteaseRatio)">
+
+<p><b>Select your prescription pancrelipase dose and size:</b></p>
+<select id="NewMealPancrelipaseType" onchange="newmealQuantitiesNeeded(lipaseRatio, proteaseRatio)">
+  <option value="" selected>Select Pancrelipase Type</option>
+  <option value="Creon 3000" Lipasevalue="3000" Proteasevalue="9500">Creon 3000</option>
+  <option value="Creon 6000" Lipasevalue="6000" Proteasevalue="19000">Creon 6000</option>
+  <option value="Creon 12000" Lipasevalue="12000" Proteasevalue="38000">Creon 12000</option>
+  <option value="Creon 24000" Lipasevalue="24000" Proteasevalue="76000">Creon 24000</option>
+  <option value="Creon 36000" Lipasevalue="36000" Proteasevalue="11400">Creon 36000</option>
+  <option value="Zenpep 3000" Lipasevalue="3000" Proteasevalue="10000">Zenpep 3000</option>
+  <option value="Zenpep 5000" Lipasevalue="5000" Proteasevalue="17000">Zenpep 5000</option>
+  <option value="Zenpep 10000" Lipasevalue="10000" Proteasevalue="34000">Zenpep 10000</option>
+  <option value="Zenpep 15000" Lipasevalue="15000" Proteasevalue="51000">Zenpep 15000</option>
+  <option value="Zenpep 20000" Lipasevalue="20000" Proteasevalue="68000">Zenpep 20000</option>
+  <option value="Zenpep 25000" Lipasevalue="25000" Proteasevalue="85000">Zenpep 25000</option>
+  <option value="Zenpep 40000" Lipasevalue="40000" Proteasevalue="136000">Zenpep 40000</option>
+</select>
 
 
+<! figure out lipaseNeeded and proteaseNeeded for new input meal>
+<script>
+function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipaseType) {
+	doseName = document.getElementById("PancrelipaseType").value;
+  if (doseName == "Creon 3000") {
+	  var protease = 9500;
+	  var amylase = 15000;
+  }
+  else if (doseName == "Creon 6000") {
+	  var protease = 19000;
+	  var amylase = 30000;
+  }
+  else if (doseName == "Creon 12000") {
+	  var protease = 38000;
+	  var amylase = 60000;
+  }
+  else if (doseName == "Creon 24000") {
+	  var protease = 76000;
+	  var amylase = 120000;
+  }
+  else if (doseName == "Creon 36000") {
+	  var protease = 11400;
+	  var amylase = 18000;
+  }
+  else if (doseName == "Zenpep 3000") {
+	  var protease = 10000;
+	  var amylase = 15000;
+  }
+  else if (doseName == "Zenpep 5000") {
+	  var protease = 17000;
+	  var amylase = 27000;
+  }
+  else if (doseName == "Zenpep 10000") {
+	  var protease = 34000;
+	  var amylase = 55000;
+  }
+  else if (doseName == "Zenpep 15000") {
+	  var protease = 51000;
+	  var amylase = 82000;
+  }
+  else if (doseName == "Zenpep 20000") {
+	  var protease = 68000;
+	  var amylase = 109000;
+  }
+  else if (doseName == "Zenpep 25000") {
+	  var protease = 85000;
+	  var amylase = 136000;
+  }
+  else if (doseName == "Zenpep 40000") {
+	  var protease = 136000;
+	  var amylase = 218000;
+  }
+	var newmealFat = document.getElementById("new meal grams of fat").value;
+	var newmealPillSize= document.getElementById("NewMealPancrelipaseType").value;
+//	document.getElementById("newmealPillSize").innerHTML = "You have selected " + newmealPillSize.bold() + " as your new meal size.";
+	var newmealLipasePillSize = newmealPillSize.replace(/[^0-9\.]+/g,"");
+//	document.getElementById("newmealPillSize2").innerHTML = "You have selected " + newmealLipasePillSize.bold() + " as your new meal size.";
+	var newmealLipaseNeeded = newmealFat / lipaseRatio * 1000;
+	var newmealLipasePillsNeeded = newmealLipaseNeeded / newmealLipasePillSize; 
+	document.getElementById("newmealLipaseCalculation").innerHTML = "You will need an estimated " + newmealLipaseNeeded.toFixed(0).bold() + " units of lipase to cover " + newmealFat.bold() + " grams of fat.";
+	document.getElementById("newmealLipasePillsCalculation").innerHTML = "This means " + newmealLipasePillsNeeded.toFixed(0).bold() + " of " + newmealPillSize.bold() + " are needed to cover " + newmealLipaseNeeded.toFixed(0).bold() + " grams of lipase.";
+	var newmealProtein = document.getElementById("new meal grams of protein").value;
+	var newmealProteinPillSize = protease;
+	var newmealProteaseNeeded = newmealProtein / proteaseRatio * 1000;
+	var newmealProteasePillsNeeded = newmealProteaseNeeded / newmealProteinPillSize;
+	document.getElementById("newmealProteaseCalculation").innerHTML = "You will need an estimated " + newmealProteaseNeeded.toFixed(0).bold() + " units of protease to cover " + newmealProtein.bold() + " grams of protein.";
+	document.getElementById("newmealProteasePillsCalculation").innerHTML = "This means " + newmealProteasePillsNeeded.toFixed(0).bold() + " of " + newmealPillSize.bold() + " are needed to cover " + newmealProteaseNeeded.toFixed(0).bold() + " grams of protease.";
 
+	// compare newmealProteasePillsNeeded and newmealLipasePillsNeeded and select the largest number of pills needed
+	if (newmealProteasePillsNeeded > newmealLipasePillsNeeded) {
+		var newmealPancrelipaseNeeded = newmealProteasePillsNeeded;
+	}
+	else {
+		var newmealPancrelipaseNeeded = newmealLipasePillsNeeded;
+	}
+	document.getElementById("newmealPancrelipaseTotalCalculation").innerHTML = "You therefore need an estimated " + newmealPancrelipaseNeeded.toFixed(0).bold() + " of " + newmealPillSize.bold() + " to cover your meal.";
 
+}
+	</script>
 
-
+<p id="newmealPillSize"></p> 
+<p id="newmealPillSize2"></p>  
+<p id="newmealLipaseCalculation"></p> 
+<p id="newmealLipasePillsCalculation"></p>
+<p id="newmealProteaseCalculation"></p>
+<p id="newmealProteasePillsCalculation"></p>
+<p id="newmealPancrelipaseTotalCalculation"></p>
 
 
 
