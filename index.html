@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
+<html lang="en">
 <head>	
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -125,33 +126,33 @@ a:visited {
 
 <article>
 <h1>Part One: Calculating Your Ratios</h1>
-<! create dropdown menu with Creon, Zenpep>
+<!-- create dropdown menu with Creon, Zenpep -->
 <p><b>Select the type of pancrelipase and size of dose:</b></p>
 <select id="PancrelipaseType" onchange="defineallvariablesizes();displayPancrelipaseSelection();displayNumberOfPills();displayLipaseTotal();displayProteaseTotal(); calculateLipaseRatio(); calculateProteaseRatio()">
   <option value="" selected>Select Pancrelipase Type</option>
-  <option value="Creon 3000" Lipasevalue="3000" Proteasevalue="9500">Creon 3000</option>
-  <option value="Creon 6000" Lipasevalue="6000" Proteasevalue="19000">Creon 6000</option>
-  <option value="Creon 12000" Lipasevalue="12000" Proteasevalue="38000">Creon 12000</option>
-  <option value="Creon 24000" Lipasevalue="24000" Proteasevalue="76000">Creon 24000</option>
-  <option value="Creon 36000" Lipasevalue="36000" Proteasevalue="11400">Creon 36000</option>
-  <option value="Zenpep 3000" Lipasevalue="3000" Proteasevalue="10000">Zenpep 3000</option>
-  <option value="Zenpep 5000" Lipasevalue="5000" Proteasevalue="17000">Zenpep 5000</option>
-  <option value="Zenpep 10000" Lipasevalue="10000" Proteasevalue="34000">Zenpep 10000</option>
-  <option value="Zenpep 15000" Lipasevalue="15000" Proteasevalue="51000">Zenpep 15000</option>
-  <option value="Zenpep 20000" Lipasevalue="20000" Proteasevalue="68000">Zenpep 20000</option>
-  <option value="Zenpep 25000" Lipasevalue="25000" Proteasevalue="85000">Zenpep 25000</option>
-  <option value="Zenpep 40000" Lipasevalue="40000" Proteasevalue="136000">Zenpep 40000</option>
+  <option value="Creon 3000">Creon 3000</option>
+  <option value="Creon 6000">Creon 6000</option>
+  <option value="Creon 12000">Creon 12000</option>
+  <option value="Creon 24000">Creon 24000</option>
+  <option value="Creon 36000">Creon 36000</option>
+  <option value="Zenpep 3000">Zenpep 3000</option>
+  <option value="Zenpep 5000">Zenpep 5000</option>
+  <option value="Zenpep 10000">Zenpep 10000</option>
+  <option value="Zenpep 15000">Zenpep 15000</option>
+  <option value="Zenpep 20000">Zenpep 20000</option>
+  <option value="Zenpep 25000">Zenpep 25000</option>
+  <option value="Zenpep 40000">Zenpep 40000</option>
 </select>
 
-<! create user entry box for number of pills >
-<input id="number of pills" type="number" min="1" max="10" value="1" size="2" onchange="defineallvariablesizes(); displayPancrelipaseSelection();displayNumberOfPills(); displayLipaseTotal(); displayProteaseTotal(); calculateLipaseRatio(); calculateProteaseRatio()">
+<!-- create user entry box for number of pills  -->
+<input id="number-of-pills" type="number" min="1" max="10" value="1" onchange="defineallvariablesizes(); displayPancrelipaseSelection();displayNumberOfPills(); displayLipaseTotal(); displayProteaseTotal(); calculateLipaseRatio(); calculateProteaseRatio()">
 <br>  
 
 <!--
 <p id="results"></p> <p id="pillresults"></p> <p id="lipasequantityresults"></p> <p id="proteasequantityresults"></p><p id="amylasequantityresults"></p>
 -->
 
-<! displayPancrelipaseSelection function to display the selected pancrelipase type> 
+<!-- displayPancrelipaseSelection function to display the selected pancrelipase type --> 
 <script>
 function displayPancrelipaseSelection() {
   doseName = document.getElementById("PancrelipaseType").value;
@@ -159,15 +160,15 @@ function displayPancrelipaseSelection() {
 }
 </script>
 
-<! function displayNumberofPills to display the number of pills selected>
+<!-- function displayNumberofPills to display the number of pills selected -->
 <script>
 function displayNumberOfPills() {
-  var numberOfPills = document.getElementById("number of pills").value;
+  var numberOfPills = document.getElementById("number-of-pills").value;
   document.getElementById("pillresults").innerHTML = "and " + numberOfPills + " pills.";
 }
 </script>
 
-<! define variables based on input dose size>
+<!-- define variables based on input dose size-->
 <script>
 function defineallvariablesizes() {
 	doseName = document.getElementById("PancrelipaseType").value;
@@ -222,10 +223,10 @@ function defineallvariablesizes() {
   {
 	var lipaseTotal = document.getElementById("PancrelipaseType").value;
 	var lipaseTotal = lipaseTotal.replace(/[^0-9\.]+/g,"");
-	var lipaseTotal = lipaseTotal * document.getElementById("number of pills").value;
+	var lipaseTotal = lipaseTotal * document.getElementById("number-of-pills").value;
   	document.getElementById("lipasequantityresults").innerHTML = "The total amount of lipase is " + lipaseTotal + ".";
-	var proteaseTotal = protease * document.getElementById("number of pills").value;
-	var amylaseTotal = amylase * document.getElementById("number of pills").value;
+	var proteaseTotal = protease * document.getElementById("number-of-pills").value;
+	var amylaseTotal = amylase * document.getElementById("number-of-pills").value;
 	document.getElementById("proteasequantityresults").innerHTML = "The total amount of protease is " + proteaseTotal + ".";
 	document.getElementById("amylasequantityresults").innerHTML = "The total amount of amylase is " + amylaseTotal + ".";
   }
@@ -233,35 +234,35 @@ function defineallvariablesizes() {
 </script>
 
 <p><b>For a meal that is successfully covered by the above dose, enter the estimates of grams of fat, protein, and carbohydrates for that meal.</b></p>
- <! create two user entry boxes for grams of fat and protein> 
- <label for="grams of fat">Grams of fat:</label> <input id="grams of fat" type="number" min="0" max="300" value="0" size="5" onchange="calculateLipaseRatio(); calculateProteaseRatio()"> 
- <label for="grams of protein">Grams of protein:</label>
- <input id="grams of protein" type="number" min="0" max="300" value="0" size="5" onchange="calculateLipaseRatio(); calculateProteaseRatio()"">
- <label for="grams of carbohydrates">Grams of carbohydrates:</label>
- <input id="grams of carbohydrates" type="number" min="0" max="300" value="0" size="5">
+ <!--create two user entry boxes for grams of fat and protein--> 
+ <label for="grams-of-fat">Grams of fat:</label> <input id="grams-of-fat" type="number" min="0" max="300" value="0" onchange="calculateLipaseRatio(); calculateProteaseRatio()"> 
+ <label for="grams-of-protein">Grams of protein:</label>
+ <input id="grams-of-protein" type="number" min="0" max="300" value="0" onchange="calculateLipaseRatio(); calculateProteaseRatio()">
+ <label for="grams-of-carbohydrates">Grams of carbohydrates:</label>
+ <input id="grams-of-carbohydrates" type="number" min="0" max="300" value="0">
 
  <br>
  <br>
-<! // create a button to calculate the lipase ratio>
+<!-- create a button to calculate the lipase ratio-->
 <button onclick="calculateLipaseRatio();calculateProteaseRatio()">Calculate Ratios!</button>
 
-<! //create function calculateLipaseRatio to divide lipaseTotal by 1000, then by grams of fat and display the results>
+<!-- //create function calculateLipaseRatio to divide lipaseTotal by 1000, then by grams of fat and display the results-->
 <script>
 function calculateLipaseRatio() {
 	doseName = document.getElementById("PancrelipaseType").value;
 	var lipaseTotal = document.getElementById("PancrelipaseType").value;
 	var lipaseTotal = lipaseTotal.replace(/[^0-9\.]+/g,"");
-	var lipaseTotal = lipaseTotal * document.getElementById("number of pills").value;
+	var lipaseTotal = lipaseTotal * document.getElementById("number-of-pills").value;
 	var lipaseTotal = lipaseTotal / 1000;
-	var gramsoffat = document.getElementById("grams of fat").value;
+	var gramsoffat = document.getElementById("grams-of-fat").value;
 	lipaseRatio = gramsoffat / lipaseTotal;
 	document.getElementById("lipaseratioresults").innerHTML = "The lipase to fat ratio is " + lipaseRatio.toFixed(3).bold() + " (grams of fat to 1000 units of lipase).";
-	var onepillLipase = lipaseRatio * lipaseTotal / document.getElementById("number of pills").value;
+	var onepillLipase = lipaseRatio * lipaseTotal / document.getElementById("number-of-pills").value;
 	document.getElementById("onepillLipase").innerHTML = "One pill of " + doseName.bold() + " covers an estimated " + onepillLipase.toFixed(1).bold() + " grams of fat.";  
 }
 </script>
 
-<! // create function calculateProteaseRatio by dividing proteaseTotal by 1000, then dividing by grams of protein, and displaying the results>
+<!-- // create function calculateProteaseRatio by dividing proteaseTotal by 1000, then dividing by grams of protein, and displaying the results-->
 <script>
 function calculateProteaseRatio() {
 	doseName = document.getElementById("PancrelipaseType").value;
@@ -315,13 +316,13 @@ function calculateProteaseRatio() {
   }
   {
 	doseName = document.getElementById("PancrelipaseType").value;
-	var proteaseTotal = protease * document.getElementById("number of pills").value;
-	var amylaseTotal = amylase * document.getElementById("number of pills").value;
+	var proteaseTotal = protease * document.getElementById("number-of-pills").value;
+	var amylaseTotal = amylase * document.getElementById("number-of-pills").value;
 	var proteaseTotal = proteaseTotal / 1000;
-	var gramsofprotein = document.getElementById("grams of protein").value;
+	var gramsofprotein = document.getElementById("grams-of-protein").value;
 	proteaseRatio = gramsofprotein / proteaseTotal;
 	document.getElementById("proteaseratioresults").innerHTML = "The protease to protein ratio is " + proteaseRatio.toFixed(3).bold() + " (grams of protein to 1000 units of protease).";	
-	var onepillProtease = proteaseRatio * proteaseTotal / document.getElementById("number of pills").value;
+	var onepillProtease = proteaseRatio * proteaseTotal / document.getElementById("number-of-pills").value;
 	document.getElementById("onepillProtein").innerHTML = "One pill of " + doseName.bold() + " covers an estimated " + onepillProtease.toFixed(1).bold() + " grams of protein.";  
 }
 }
@@ -336,29 +337,29 @@ function calculateProteaseRatio() {
 <br>
 <h3>Part Two: Generating Recommendations For A Future Meal Based On Your Ratios</h3>
 
-<! // create user entry fields for grams of fat, grams of protein, and grams of carbohydrates>
-<label for="grams of fat">Grams of fat:</label> <input id="new meal grams of fat" type="number" min="0" max="300" value="0" size="3" onchange="newmealQuantitiesNeeded(lipaseRatio, proteaseRatio)">
-<label for="grams of protein">Grams of protein:</label> <input id="new meal grams of protein" type="number" min="0" max="300" value="0" size="3" onchange="newmealQuantitiesNeeded(lipaseRatio, proteaseRatio)">
-<label for="grams of carbohydrates">Grams of carbohydrates:</label> <input id="new meal grams of carbohydrates" type="number" min="0" max="300" value="0" size="3" onchange="newmealQuantitiesNeeded(lipaseRatio, proteaseRatio)">
+<!-- // create user entry fields for grams of fat, grams of protein, and grams of carbohydrates-->
+<label for="new-meal-grams-of-fat">Grams of fat:</label> <input id="new-meal-grams-of-fat" type="number" min="0" max="300" value="0" onchange="newmealQuantitiesNeeded(lipaseRatio, proteaseRatio)">
+<label for="new-meal-grams-of-protein">Grams of protein:</label> <input id="new-meal-grams-of-protein" type="number" min="0" max="300" value="0" onchange="newmealQuantitiesNeeded(lipaseRatio, proteaseRatio)">
+<label for="new-meal-grams-of-carbohydrates">Grams of carbohydrates:</label> <input id="new-meal-grams-of-carbohydrates" type="number" min="0" max="300" value="0" onchange="newmealQuantitiesNeeded(lipaseRatio, proteaseRatio)">
 
 <p><b>Select your prescription pancrelipase dose and size:</b></p>
 <select id="NewMealPancrelipaseType" onchange="newmealQuantitiesNeeded(lipaseRatio, proteaseRatio)">
   <option value="" selected>Select Pancrelipase Type</option>
-  <option value="Creon 3000" Lipasevalue="3000" Proteasevalue="9500">Creon 3000</option>
-  <option value="Creon 6000" Lipasevalue="6000" Proteasevalue="19000">Creon 6000</option>
-  <option value="Creon 12000" Lipasevalue="12000" Proteasevalue="38000">Creon 12000</option>
-  <option value="Creon 24000" Lipasevalue="24000" Proteasevalue="76000">Creon 24000</option>
-  <option value="Creon 36000" Lipasevalue="36000" Proteasevalue="11400">Creon 36000</option>
-  <option value="Zenpep 3000" Lipasevalue="3000" Proteasevalue="10000">Zenpep 3000</option>
-  <option value="Zenpep 5000" Lipasevalue="5000" Proteasevalue="17000">Zenpep 5000</option>
-  <option value="Zenpep 10000" Lipasevalue="10000" Proteasevalue="34000">Zenpep 10000</option>
-  <option value="Zenpep 15000" Lipasevalue="15000" Proteasevalue="51000">Zenpep 15000</option>
-  <option value="Zenpep 20000" Lipasevalue="20000" Proteasevalue="68000">Zenpep 20000</option>
-  <option value="Zenpep 25000" Lipasevalue="25000" Proteasevalue="85000">Zenpep 25000</option>
-  <option value="Zenpep 40000" Lipasevalue="40000" Proteasevalue="136000">Zenpep 40000</option>
+  <option value="Creon 3000">Creon 3000</option>
+  <option value="Creon 6000">Creon 6000</option>
+  <option value="Creon 12000">Creon 12000</option>
+  <option value="Creon 24000">Creon 24000</option>
+  <option value="Creon 36000">Creon 36000</option>
+  <option value="Zenpep 3000">Zenpep 3000</option>
+  <option value="Zenpep 5000">Zenpep 5000</option>
+  <option value="Zenpep 10000">Zenpep 10000</option>
+  <option value="Zenpep 15000">Zenpep 15000</option>
+  <option value="Zenpep 20000">Zenpep 20000</option>
+  <option value="Zenpep 25000">Zenpep 25000</option>
+  <option value="Zenpep 40000">Zenpep 40000</option>
 </select>
 
-<! figure out lipaseNeeded and proteaseNeeded for new input meal>
+<!-- figure out lipaseNeeded and proteaseNeeded for new input meal-->
 <script>
 function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipaseType) {
 	doseName = document.getElementById("PancrelipaseType").value;
@@ -410,7 +411,7 @@ function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipase
 	  var protease = 136000;
 	  var amylase = 218000;
   }
-	var newmealFat = document.getElementById("new meal grams of fat").value;
+	var newmealFat = document.getElementById("new-meal-grams-of-fat").value;
 	var newmealPillSize= document.getElementById("NewMealPancrelipaseType").value;
 //	document.getElementById("newmealPillSize").innerHTML = "You have selected " + newmealPillSize.bold() + " as your new meal size.";
 	var newmealLipasePillSize = newmealPillSize.replace(/[^0-9\.]+/g,"");
@@ -419,7 +420,7 @@ function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipase
 	var newmealLipasePillsNeeded = newmealLipaseNeeded / newmealLipasePillSize; 
 	document.getElementById("newmealLipaseCalculation").innerHTML = "You will need an estimated " + newmealLipaseNeeded.toFixed(0).bold() + " units of lipase to cover " + newmealFat.bold() + " grams of fat.";
 	document.getElementById("newmealLipasePillsCalculation").innerHTML = "This means " + newmealLipasePillsNeeded.toFixed(0).bold() + " of " + newmealPillSize.bold() + " are needed to cover " + newmealLipaseNeeded.toFixed(0).bold() + " grams of lipase.";
-	var newmealProtein = document.getElementById("new meal grams of protein").value;
+	var newmealProtein = document.getElementById("new-meal-grams-of-protein").value;
 	var newmealProteinPillSize = protease;
 	var newmealProteaseNeeded = newmealProtein / proteaseRatio * 1000;
 	var newmealProteasePillsNeeded = newmealProteaseNeeded / newmealProteinPillSize;
@@ -440,7 +441,7 @@ function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipase
 <br>
 <br>
 <div class="center">
-<button align="center" type="button" class="collapsible">Click to expand and display the calculations.</button>
+<button type="button" class="collapsible">Click to expand and display the calculations.</button>
 <div class="content" style="text-align: center;">
 	<p id="newmealPillSize"></p> 
 	<p id="newmealPillSize2"></p>  
@@ -478,11 +479,11 @@ function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipase
 <footer>
 	<p style="text-align: center;"><b>Note</b>: this is not medical advice. Use at your own risk.</p>
 
-	<p style="text-align: center;"> For more details about the idea behind this calculator, <a href="https://bit.ly/3fAUFfJ>">read this post</a>.</p>
+	<p style="text-align: center;"> For more details about the idea behind this calculator, <a href="https://bit.ly/3fAUFfJ">read this post</a>.</p>
 </footer>
 
 <p></p>
-<button style="text-align: center;" onclick=pdfMake.createPdf(docDefinition).download('EPI-PERT-Enzyme-Calculator-Report.pdf');>Download PDF</button>
+<button onclick=pdfMake.createPdf(docDefinition).download('CalculatorReport.pdf');>Download PDF</button>
 <script>
 
 	var docDefinition = {
@@ -493,31 +494,31 @@ function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipase
 		' ',
 	 //   { text: 'You selected:', style: 'subsubhead' },
 	 //   ' ',
-		{ text: document.getElementById("number of pills").value + ' ' + document.getElementById("PancrelipaseType").value + ' pill(s) per meal typically work for you.', fontSize: 10 },
+		{ text: document.getElementById("number-of-pills").value + ' ' + document.getElementById("PancrelipaseType").value + ' pill(s) per meal typically work for you.', fontSize: 10 },
 		' ',
 	 //   { text: 'This successfully covers:', style: 'subsubhead' },
 	 //   ' ',
-		{ text: ' This successfully covers around ' + document.getElementById("grams of fat").value + ' grams of fat, ' + document.getElementById("grams of protein").value + ' grams of protein, and ' + document.getElementById("grams of carbohydrates").value + ' grams of carbohydrates.', fontSize: 10 },
+		{ text: ' This successfully covers around ' + document.getElementById("grams-of-fat").value + ' grams of fat, ' + document.getElementById("grams-of-protein").value + ' grams of protein, and ' + document.getElementById("grams-of-carbohydrates").value + ' grams of carbohydrates.', fontSize: 10 },
 		' ',
 		{ text: 'This means:', style: 'subsubhead' },
 		' ',
-		{ text: '1000 units of lipase will cover ' + document.getElementById("grams of fat").value + ' grams of fat.', fontSize: 10 },
-		{ text: '1000 units of protease will cover ' + document.getElementById("grams of protein").value + ' grams of protein.', fontSize: 10 },
-		{ text: 'One pill of ' + document.getElementById("PancrelipaseType").value + ' will cover ' + document.getElementById("grams of fat").value + ' grams of fat.', fontSize: 10 },
-		{ text: 'One pill of ' + document.getElementById("PancrelipaseType").value + ' will cover ' + document.getElementById("grams of protein").value + ' grams of protein.', fontSize: 10 },
+		{ text: '1000 units of lipase will cover ' + document.getElementById("grams-of-fat").value + ' grams of fat.', fontSize: 10 },
+		{ text: '1000 units of protease will cover ' + document.getElementById("grams-of-protein").value + ' grams of protein.', fontSize: 10 },
+		{ text: 'One pill of ' + document.getElementById("PancrelipaseType").value + ' will cover ' + document.getElementById("grams-of-fat").value + ' grams of fat.', fontSize: 10 },
+		{ text: 'One pill of ' + document.getElementById("PancrelipaseType").value + ' will cover ' + document.getElementById("grams-of-protein").value + ' grams of protein.', fontSize: 10 },
 		' ',
 		{ text: 'A new meal that you would like to calculate the dose for is:', style: 'subsubhead' },
 		' ',
-		{ text: ' ' + document.getElementById("new meal grams of fat").value + ' grams of fat, ' + document.getElementById("new meal grams of protein").value + ' grams of protein' + ' (with ' + document.getElementById("NewMealPancrelipaseType").value + ')', fontSize: 10 },
+		{ text: ' ' + document.getElementById("new-meal-grams-of-fat").value + ' grams of fat, ' + document.getElementById("new-meal-grams-of-protein").value + ' grams of protein' + ' (with ' + document.getElementById("NewMealPancrelipaseType").value + ')', fontSize: 10 },
 		' ',
 		' ',
 		{ text: 'Estimated Needs', style: 'subhead' },
 		
-//		{ text: 'You will need an estimated ' + document.getElementById("variablenewmealLipaseNeeded").value + ' units of lipase to cover ' + document.getElementById("new meal grams of fat").value + ' grams of fat, and ' + document.getElementById("newmealProteaseNeeded").value + 'units of lipase to cover ' + document.getElementById("new meal grams of protein").value + ' grams of protein.', fontSize: 10 },
+	//	{ text: 'You will need an estimated ' + document.getElementById("newmealLipaseNeeded").value + ' units of lipase to cover ' + document.getElementById("new-meal-grams-of-fat").value + ' grams of fat, and ' + document.getElementById("newmealProteaseNeeded").value + 'units of protein to cover ' + document.getElementById("new-meal-grams of-protein").value + ' grams of protein.', fontSize: 10 },
     ' ',
-//   { text: 'This means ' + document.getElementByID("newmealLipasePillsCalculation").value + ' pills of ' + document.getElementById("NewMealPancrelipaseType").value + ' to cover ' + document.getElementById("new meal lipase").value + ' lipase, and ' + document.getElementById("newmealProteasePillsCalculation.toFixed(0)").value + ' pills of ' + document.getElementById("NewMealPancrelipaseType").value + ' to cover ' + document.getElementById("new meal protease").value + ' protease.', italics:true },
+  // { text: 'This means ' + document.getElementByID("newmealLipasePillsCalculation").value + ' pills of ' + document.getElementById("NewMealPancrelipaseType").value + ' to cover ' + document.getElementById("new meal lipase").value + ' lipase, and ' + document.getElementById("newmealProteasePillsCalculation.toFixed(0)").value + ' pills of ' + document.getElementById("NewMealPancrelipaseType").value + ' to cover ' + document.getElementById("new meal protease").value + ' protease.', italics:true },
     ' ',
-//   { text: 'You therefore need an estimated ' + document.getElementById("newmealPancrelipaseNeeded").value + ' of ' + document.getElementById("newmealPillSize").value + ' to cover your meal.', italics:true },
+ //  { text: 'You therefore need an estimated ' + document.getElementById("newmealPancrelipaseNeeded").value + ' of ' + document.getElementById("newmealPillSize").value + ' to cover your meal.', italics:true },
 
 	
 		],
@@ -545,6 +546,5 @@ function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipase
 	};
 	
 	</script>
-</div>
 </body>
 </html>
