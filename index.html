@@ -17,6 +17,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
 /* Style the header */
 header {
   background-color: #6495ED;
@@ -259,6 +267,11 @@ function calculateLipaseRatio() {
 	document.getElementById("lipaseratioresults").innerHTML = "The lipase to fat ratio is " + lipaseRatio.toFixed(3).bold() + " (grams of fat to 1000 units of lipase).";
 	var onepillLipase = lipaseRatio * lipaseTotal / document.getElementById("number-of-pills").value;
 	document.getElementById("onepillLipase").innerHTML = "One pill of " + doseName.bold() + " covers an estimated " + onepillLipase.toFixed(1).bold() + " grams of fat.";  
+	var lipaseRatioHash = {
+		lipaseRatio: lipaseRatio.toFixed(3),
+		onepillLipase: onepillLipase.toFixed(1),
+	};
+	return lipaseRatioHash;
 }
 </script>
 
@@ -324,6 +337,11 @@ function calculateProteaseRatio() {
 	document.getElementById("proteaseratioresults").innerHTML = "The protease to protein ratio is " + proteaseRatio.toFixed(3).bold() + " (grams of protein to 1000 units of protease).";	
 	var onepillProtease = proteaseRatio * proteaseTotal / document.getElementById("number-of-pills").value;
 	document.getElementById("onepillProtein").innerHTML = "One pill of " + doseName.bold() + " covers an estimated " + onepillProtease.toFixed(1).bold() + " grams of protein.";  
+	var proteaseRatioHash = {
+		proteaseRatio: proteaseRatio.toFixed(3),
+		onepillProtease: onepillProtease.toFixed(1),
+	};
+	return proteaseRatioHash;
 }
 }
 </script>
@@ -336,6 +354,7 @@ function calculateProteaseRatio() {
 <br>
 <br>
 <h3>Part Two: Generating Recommendations For A Future Meal Based On Your Ratios</h3>
+
 
 <!-- // create user entry fields for grams of fat, grams of protein, and grams of carbohydrates-->
 <label for="new-meal-grams-of-fat">Grams of fat:</label> <input id="new-meal-grams-of-fat" type="number" min="0" max="300" value="0" onchange="newmealQuantitiesNeeded(lipaseRatio, proteaseRatio)">
@@ -358,6 +377,7 @@ function calculateProteaseRatio() {
   <option value="Zenpep 25000">Zenpep 25000</option>
   <option value="Zenpep 40000">Zenpep 40000</option>
 </select>
+
 
 <!-- figure out lipaseNeeded and proteaseNeeded for new input meal-->
 <script>
@@ -412,20 +432,33 @@ function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipase
 	  var amylase = 218000;
   }
 	var newmealFat = document.getElementById("new-meal-grams-of-fat").value;
+	newmealFat = parseInt(newmealFat);
+// 	document.getElementById("PrintNewMealFat").innerHTML = "You have " + newmealFat.toFixed(0).bold() + " grams of fat in your new meal.";
 	var newmealPillSize= document.getElementById("NewMealPancrelipaseType").value;
 //	document.getElementById("newmealPillSize").innerHTML = "You have selected " + newmealPillSize.bold() + " as your new meal size.";
 	var newmealLipasePillSize = newmealPillSize.replace(/[^0-9\.]+/g,"");
 //	document.getElementById("newmealPillSize2").innerHTML = "You have selected " + newmealLipasePillSize.bold() + " as your new meal size.";
+// 	document.getElementById("PrintLipaseRatioDebug").innerHTML = "Debug: lipase ratio is " + lipaseRatio.toFixed(1).bold() + ".";
+	lipaseRatio = parseFloat(lipaseRatio);
+	newmealLipasePillSize = parseInt(newmealLipasePillSize);
 	var newmealLipaseNeeded = newmealFat / lipaseRatio * 1000;
+	newmealLipaseNeeded = parseInt(newmealLipaseNeeded);
 	var newmealLipasePillsNeeded = newmealLipaseNeeded / newmealLipasePillSize; 
-	document.getElementById("newmealLipaseCalculation").innerHTML = "You will need an estimated " + newmealLipaseNeeded.toFixed(0).bold() + " units of lipase to cover " + newmealFat.bold() + " grams of fat.";
-	document.getElementById("newmealLipasePillsCalculation").innerHTML = "This means " + newmealLipasePillsNeeded.toFixed(0).bold() + " of " + newmealPillSize.bold() + " are needed to cover " + newmealLipaseNeeded.toFixed(0).bold() + " grams of lipase.";
+	newmealLipasePillsNeeded = parseFloat(newmealLipasePillsNeeded);
+	newmealLipasePillsNeeded = Math.ceil(newmealLipasePillsNeeded);
+	document.getElementById("newmealLipaseCalculation").innerHTML = "You will need an estimated " + newmealLipaseNeeded.toFixed(0).bold() + " units of lipase to cover " + newmealFat.toFixed(0).bold() + " grams of fat.";
+	document.getElementById("newmealLipasePillsCalculation").innerHTML = "This means " + newmealLipasePillsNeeded.toFixed(0).bold() + " of " + newmealPillSize.bold() + " are needed to cover " + newmealLipaseNeeded.toFixed(0).bold() + " units of lipase.";
 	var newmealProtein = document.getElementById("new-meal-grams-of-protein").value;
+	newmealProtein = parseInt(newmealProtein);
 	var newmealProteinPillSize = protease;
+	proteaseRatio = parseFloat(proteaseRatio);
 	var newmealProteaseNeeded = newmealProtein / proteaseRatio * 1000;
+	newmealProteaseNeeded = parseFloat(newmealProteaseNeeded);
 	var newmealProteasePillsNeeded = newmealProteaseNeeded / newmealProteinPillSize;
-	document.getElementById("newmealProteaseCalculation").innerHTML = "You will need an estimated " + newmealProteaseNeeded.toFixed(0).bold() + " units of protease to cover " + newmealProtein.bold() + " grams of protein.";
-	document.getElementById("newmealProteasePillsCalculation").innerHTML = "This means " + newmealProteasePillsNeeded.toFixed(0).bold() + " of " + newmealPillSize.bold() + " are needed to cover " + newmealProteaseNeeded.toFixed(0).bold() + " grams of protease.";
+	newmealProteasePillsNeeded = parseFloat(newmealProteasePillsNeeded);
+	newmealProteasePillsNeeded = Math.ceil(newmealProteasePillsNeeded);
+	document.getElementById("newmealProteaseCalculation").innerHTML = "You will need an estimated " + newmealProteaseNeeded.toFixed(0).bold() + " units of protease to cover " + newmealProtein.toFixed(0).bold() + " grams of protein.";
+	document.getElementById("newmealProteasePillsCalculation").innerHTML = "This means " + newmealProteasePillsNeeded.toFixed(0).bold() + " of " + newmealPillSize.bold() + " are needed to cover " + newmealProteaseNeeded.toFixed(0).bold() + " units of protease.";
 
 	// compare newmealProteasePillsNeeded and newmealLipasePillsNeeded and select the largest number of pills needed
 	if (newmealProteasePillsNeeded > newmealLipasePillsNeeded) {
@@ -435,16 +468,106 @@ function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipase
 		var newmealPancrelipaseNeeded = newmealLipasePillsNeeded;
 	}
 	document.getElementById("newmealPancrelipaseTotalCalculation").innerHTML = "You therefore need an estimated " + newmealPancrelipaseNeeded.toFixed(0).bold() + " of " + newmealPillSize.bold() + " to cover your meal.";
+	// return variables as a hash
+	var newmealPancrelipaseNeededHash = {
+		newmealLipaseNeeded: newmealLipaseNeeded,
+		newmealLipasePillsNeeded: newmealLipasePillsNeeded,
+		newmealProteaseNeeded: newmealProteaseNeeded,
+		newmealProteasePillsNeeded: newmealProteasePillsNeeded,
+		newmealPancrelipaseNeeded: newmealPancrelipaseNeeded,
+		newmealPillSize: newmealPillSize,
+	};
+	return newmealPancrelipaseNeededHash;
 
 }
 	</script>
 <br>
 <br>
+
+<!-- // create a checkbox for an optional section that only displays if the box is checked -->
+<input type="checkbox" name="calculate-with-supplemental-OTC" id="supplemental-OTC-checkbox" onclick="newmealPancrelipaseWithOTCCheckbox()">
+<label for="supplemental-OTC-checkbox">Calculate with supplemental OTC</label>
+<br>
+<br>
+<script>
+function newmealPancrelipaseWithOTCCheckbox() {
+	if (document.getElementById("supplemental-OTC-checkbox").checked == true) {
+		document.getElementById("newmealWithOTC").style.display = "block";
+	}
+	else {
+		document.getElementById("newmealWithOTC").style.display = "none";
+	}
+}
+</script>
+
+<!-- // create input fields for lipase, protease, and amylase -->
+<p>Put in the amount of lipase and/or protease and/or amylse in your single or multi-enzyme over the counter supplements. Leave blank the fields if your supplement does not contain them.</p>
+<label for="new-meal-supplemental-units-of-lipase">Units of Lipase:</label>
+<input type="number" name="new-meal-supplemental-units-of-lipase" id="new-meal-supplemental-units-of-lipase" onchange="newmealWithOTC()">
+<label for="new-meal-supplemental-units-of-protease">Units of Protease:</label>
+<input type="number" name="new-meal-supplemental-units-of-protease" id="new-meal-supplemental-units-of-protease" onchange="newmealWithOTC()">
+<label for="new-meal-supplemental-units-of-amylase">Units of Amylase:</label>
+<input type="number" name="new-meal-supplemental-units-of-amylase" id="new-meal-supplemental-units-of-amylase" onchange="newmealWithOTC()">
+
+<p id="newmealSupplementalLipaseCalculation"></p>
+<script>
+function newmealWithOTC() {
+	var outputoflipaseRatio = calculateLipaseRatio();
+	var lipaseRatio = outputoflipaseRatio.lipaseRatio;
+	var onepillLipase = outputoflipaseRatio.onepillLipase;
+	lipaseRatio = parseFloat(lipaseRatio);
+	var outputofproteaseRatio = calculateProteaseRatio();
+	var proteaseRatio = outputofproteaseRatio.proteaseRatio;
+	var onepillProtease = outputofproteaseRatio.onepillProtease;
+	proteaseRatio = parseFloat(proteaseRatio);
+	var outputofnewmealQuantitiesNeeded = newmealQuantitiesNeeded(lipaseRatio, proteaseRatio);
+	var newmealLipaseNeeded = outputofnewmealQuantitiesNeeded.newmealLipaseNeeded;
+	newmealLipaseNeeded = parseFloat(newmealLipaseNeeded);
+	var newmealLipasePillsNeeded = outputofnewmealQuantitiesNeeded.newmealLipasePillsNeeded;
+	newmealLipasePillsNeeded = parseFloat(newmealLipasePillsNeeded);
+	var newmealProteaseNeeded = outputofnewmealQuantitiesNeeded.newmealProteaseNeeded;
+	newmealProteaseNeeded = parseFloat(newmealProteaseNeeded);
+	var newmealProteasePillsNeeded = outputofnewmealQuantitiesNeeded.newmealProteasePillsNeeded;
+	newmealProteasePillsNeeded = parseFloat(newmealProteasePillsNeeded);
+	var newmealPancrelipaseNeeded = outputofnewmealQuantitiesNeeded.newmealPancrelipaseNeeded;
+	newmealPancrelipaseNeeded = parseFloat(newmealPancrelipaseNeeded);
+	var newmealPillSize = outputofnewmealQuantitiesNeeded.newmealPillSize;
+	var newmealLipasePillName = newmealPillSize;
+	var newmealLipasePillSize = newmealLipasePillName.replace(/[^0-9\.]+/g,"");
+
+	var supplementalLipase = document.getElementById("new-meal-supplemental-units-of-lipase").value;
+
+	document.getElementById("NewMealLipaseConfirmation").innerHTML = "Confirmed that you need " + newmealLipaseNeeded + " units of lipase for the new meal.";
+	// define number of PERT needed in total
+	var pillsLipaseNeeded = newmealLipaseNeeded / newmealLipasePillSize;
+	pillsLipaseNeeded = parseFloat(pillsLipaseNeeded.toFixed(1));
+	pillsLipaseNeededRoundedUp = Math.ceil(pillsLipaseNeeded);
+	pillsLipaseNeededRoundedDown = Math.floor(pillsLipaseNeeded);
+	document.getElementById("PrintNumberofPertLipaseNeeded").innerHTML = "You need " + pillsLipaseNeeded + " of " + newmealLipasePillName + " PERT.";
+	var remainderLipase = newmealLipaseNeeded - newmealLipasePillSize;
+	remainderLipase = Math.abs(remainderLipase);
+	document.getElementById("PrintRemainderLipaseNeeded").innerHTML = "Remainder lipase is " + remainderLipase;
+	var numberofSupplementalLipse = remainderLipase / supplementalLipase;
+	numberofSupplementalLipse = Math.ceil(numberofSupplementalLipse);
+
+
+	// conclusion
+	document.getElementById("newMealPERT").innerHTML = "You need " + pillsLipaseNeededRoundedUp + " of " + newmealLipasePillName + " to cover your meal.";
+	document.getElementById("newMealPERT-2").innerHTML = ' OR, you can consider taking ' + pillsLipaseNeededRoundedDown + " of " + newmealPillSize + " and " + numberofSupplementalLipse + " of (" + supplementalLipase + "-sized) lipase supplements to cover your meal.";
+
+}
+
+</script>
+<p id="NewMealLipaseConfirmation"></p>
+<p id="PrintNumberofPertLipaseNeeded"></p>
+<p id="PrintRemainderLipaseNeeded"></p>
+<p id="newMealPERT"></p>
+<p id="newMealPERT-2"></p>
+
+
 <div class="center">
 <button type="button" class="collapsible">Click to expand and display the calculations.</button>
 <div class="content" style="text-align: center;">
-	<p id="newmealPillSize"></p> 
-	<p id="newmealPillSize2"></p>  
 	<p id="newmealLipaseCalculation"></p> 
 	<p id="newmealLipasePillsCalculation"></p>
 	<p id="newmealProteaseCalculation"></p>
@@ -454,7 +577,10 @@ function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipase
 </div>
 
 <p style="text-align: center;" id="newmealPancrelipaseTotalCalculation"></p>
-
+<br>
+<div class="center">
+<button onclick="createPDF();">Download PDF</button>
+</div>
 <script>
 	var coll = document.getElementsByClassName("collapsible");
 	var i;
@@ -482,68 +608,90 @@ function newmealQuantitiesNeeded(lipaseRatio, proteaseRatio, NewMealPancrelipase
 	<p style="text-align: center;"> For more details about the idea behind this calculator, <a href="https://bit.ly/3fAUFfJ">read this post</a>.</p>
 </footer>
 
-<p></p>
-<button onclick=pdfMake.createPdf(docDefinition).download('CalculatorReport.pdf');>Download PDF</button>
+
+
+
 <script>
+	function createPDF() {
+		var outputoflipaseRatio = calculateLipaseRatio();
+		var outputofproteaseRatio = calculateProteaseRatio();
+		var lipaseRatio = outputoflipaseRatio.lipaseRatio;
+		var proteaseRatio = outputofproteaseRatio.proteaseRatio;
+		var onepillProtease = outputofproteaseRatio.onepillProtease;
+		onepillProtease = parseFloat(onepillProtease);
+		var outputofnewmealQuantitiesNeeded = newmealQuantitiesNeeded(lipaseRatio, proteaseRatio);
+		var newmealLipaseNeeded = outputofnewmealQuantitiesNeeded.newmealLipaseNeeded;
+		newmealLipaseNeeded = parseFloat(newmealLipaseNeeded);
+		var newmealLipasePillsNeeded = outputofnewmealQuantitiesNeeded.newmealLipasePillsNeeded;
+		newmealLipasePillsNeeded = parseFloat(newmealLipasePillsNeeded);
+		var newmealProteaseNeeded = outputofnewmealQuantitiesNeeded.newmealProteaseNeeded;
+		newmealProteaseNeeded = parseFloat(newmealProteaseNeeded);
+		var newmealProteasePillsNeeded = outputofnewmealQuantitiesNeeded.newmealProteasePillsNeeded;
+		newmealProteasePillsNeeded = parseFloat(newmealProteasePillsNeeded);
+		var newmealPancrelipaseNeeded = outputofnewmealQuantitiesNeeded.newmealPancrelipaseNeeded;
+		var newmealPillSize = outputofnewmealQuantitiesNeeded.newmealPillSize;
+		var onepillLipase = outputoflipaseRatio.onepillLipase;
+		onepillLipase = parseFloat(onepillLipase);
 
-	var docDefinition = {
-		content: [
-		{ text: 'Report from the EPI/PEI PERT Enzyme Calculator', style: 'header' },
-		{ text: 'Generated from https://sandboxexperimentation.github.io/EPI-calc-beta/', style: 'subhead' },
-		' ',
-		' ',
-	 //   { text: 'You selected:', style: 'subsubhead' },
-	 //   ' ',
-		{ text: document.getElementById("number-of-pills").value + ' ' + document.getElementById("PancrelipaseType").value + ' pill(s) per meal typically work for you.', fontSize: 10 },
-		' ',
-	 //   { text: 'This successfully covers:', style: 'subsubhead' },
-	 //   ' ',
-		{ text: ' This successfully covers around ' + document.getElementById("grams-of-fat").value + ' grams of fat, ' + document.getElementById("grams-of-protein").value + ' grams of protein, and ' + document.getElementById("grams-of-carbohydrates").value + ' grams of carbohydrates.', fontSize: 10 },
-		' ',
-		{ text: 'This means:', style: 'subsubhead' },
-		' ',
-		{ text: '1000 units of lipase will cover ' + document.getElementById("grams-of-fat").value + ' grams of fat.', fontSize: 10 },
-		{ text: '1000 units of protease will cover ' + document.getElementById("grams-of-protein").value + ' grams of protein.', fontSize: 10 },
-		{ text: 'One pill of ' + document.getElementById("PancrelipaseType").value + ' will cover ' + document.getElementById("grams-of-fat").value + ' grams of fat.', fontSize: 10 },
-		{ text: 'One pill of ' + document.getElementById("PancrelipaseType").value + ' will cover ' + document.getElementById("grams-of-protein").value + ' grams of protein.', fontSize: 10 },
-		' ',
-		{ text: 'A new meal that you would like to calculate the dose for is:', style: 'subsubhead' },
-		' ',
-		{ text: ' ' + document.getElementById("new-meal-grams-of-fat").value + ' grams of fat, ' + document.getElementById("new-meal-grams-of-protein").value + ' grams of protein' + ' (with ' + document.getElementById("NewMealPancrelipaseType").value + ')', fontSize: 10 },
-		' ',
-		' ',
-		{ text: 'Estimated Needs', style: 'subhead' },
+		var docDefinition = {
+			content: [
+			{ text: 'EPI/PEI PERT Enzyme Calculator', style: 'header' },
+			{ text: 'Generated from https://sandboxexperimentation.github.io/EPI-calc-beta/', style: 'subhead' },
+			{ text: ' ------------------------------------------------------------', style: 'header', },
+			' ',
+		//   { text: 'You selected:', style: 'subsubhead' },
+		//   ' ',
+			{ text: document.getElementById("number-of-pills").value + ' ' + document.getElementById("PancrelipaseType").value + ' pill(s) typically cover around ' + document.getElementById("grams-of-fat").value + ' grams of fat, ' + document.getElementById("grams-of-protein").value + ' grams of protein, and ' + document.getElementById("grams-of-carbohydrates").value + ' grams of carbohydrates.', fontSize: 10 },
+			' ',
+			{ text: 'This means:', style: 'subsubhead' },
+			' ',
+			{ text: 'One pill of ' + document.getElementById("PancrelipaseType").value + ' will cover ' + onepillLipase + ' grams of fat.', fontSize: 10 },
+			{ text: 'One pill of ' + document.getElementById("PancrelipaseType").value + ' will cover ' + onepillProtease + ' grams of protein.', fontSize: 10 },
+			' ',
+			{ text: 'A new meal that you would like to calculate the dose for is:', style: 'subsubhead',},
+			' ',
+			{ text: ' ' + document.getElementById("new-meal-grams-of-fat").value + ' grams of fat, ' + document.getElementById("new-meal-grams-of-protein").value + ' grams of protein' + ' (with ' + document.getElementById("NewMealPancrelipaseType").value + ').', fontSize: 10 },
+			' ',
+			' ',
+			{ text: 'Calculation:', style: 'subhead' },
+			' ',
+
+		 	{ text: 'You will need an estimated ' + newmealLipaseNeeded  + ' units of lipase to cover ' + document.getElementById("new-meal-grams-of-fat").value + ' grams of fat, and ' + newmealProteaseNeeded.toFixed(0) + ' units of protease to cover ' + document.getElementById("new-meal-grams-of-protein").value + ' grams of protein.', fontSize: 10 },
+			' ',
+			{ text: 'This means ' + newmealLipasePillsNeeded + ' pills of ' + newmealPillSize + ' to cover ' + newmealLipaseNeeded.toFixed(0) + ' lipase, and ' + newmealProteasePillsNeeded.toFixed(0) + ' pills of ' + newmealPillSize + ' to cover ' + newmealProteaseNeeded.toFixed(0) + ' protease.', fontSize: 10 },
+			' ',
+			{
+			text: [
+			'You therefore need an estimated ',
+			{ text: newmealPancrelipaseNeeded.toFixed(0) + ' pills of ' + newmealPillSize, fontsize: 25, bold: true, background: '#d9d2e9' },
+			' to cover your meal.',
+			]
+			},
+			],
 		
-	//	{ text: 'You will need an estimated ' + document.getElementById("newmealLipaseNeeded").value + ' units of lipase to cover ' + document.getElementById("new-meal-grams-of-fat").value + ' grams of fat, and ' + document.getElementById("newmealProteaseNeeded").value + 'units of protein to cover ' + document.getElementById("new-meal-grams of-protein").value + ' grams of protein.', fontSize: 10 },
-    ' ',
-  // { text: 'This means ' + document.getElementByID("newmealLipasePillsCalculation").value + ' pills of ' + document.getElementById("NewMealPancrelipaseType").value + ' to cover ' + document.getElementById("new meal lipase").value + ' lipase, and ' + document.getElementById("newmealProteasePillsCalculation.toFixed(0)").value + ' pills of ' + document.getElementById("NewMealPancrelipaseType").value + ' to cover ' + document.getElementById("new meal protease").value + ' protease.', italics:true },
-    ' ',
- //  { text: 'You therefore need an estimated ' + document.getElementById("newmealPancrelipaseNeeded").value + ' of ' + document.getElementById("newmealPillSize").value + ' to cover your meal.', italics:true },
-
-	
-		],
-	
-		styles: {
-		header: {
-		  fontSize: 25,
-		  alignment: 'center',
-		  bold: true
-		},
-		subhead: {
-		  fontSize: 12,
-		  alignment: 'center',
-		  bold: true
-		},
-		subsubhead: {
-		  fontSize: 12,
-		  alignment: 'left'
-		},
-		defaultStyle: {
-		fontSize: 10,
-		bold: false
+			styles: {
+			header: {
+			fontSize: 25,
+			alignment: 'center',
+			bold: true
+			},
+			subhead: {
+			fontSize: 12,
+			alignment: 'center',
+			bold: true
+			},
+			subsubhead: {
+			fontSize: 14,
+			alignment: 'centered'
+			},
+			defaultStyle: {
+			fontSize: 10,
+			bold: false
+			}
 		}
-	  }
-	};
+		};
+		pdfMake.createPdf(docDefinition).download('CalculatorReport.pdf');
+	}
 	
 	</script>
 </body>
