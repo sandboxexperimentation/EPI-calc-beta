@@ -18,4 +18,4 @@
  - [ ] add comparison for lipase vs lipase+protease supplemental quantities
  - [ ] change final result on page based on supplemental calculation
  - [x] Print/export options?
- - [ ] create basic FAQs
+ - [x] create basic FAQs
